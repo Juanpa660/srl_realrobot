@@ -1,0 +1,305 @@
+<mujoco model="jackal_safe_navigation">
+	<compiler angle="radian" meshdir="meshes/" />
+
+    <size njmax="3000" nconmax="1000" />
+    <option gravity="0 0 -9.8"/>
+	<option timestep="0.002">
+		<flag warmstart="enable"></flag>
+	</option>
+
+    <default>
+        <geom condim="6" density="5" rgba="0.7 0.7 0.7 1" size=".05" type="sphere"/>
+        <joint damping=".001"/>
+        <site size="0.032" type="sphere"/>
+        <velocity ctrlrange="-1 1" ctrllimited="true" forcerange="-1 1" forcelimited="true"/>
+    </default>
+
+    <asset>
+        <!--Meshes-->
+        <mesh name="base" file="tbot.stl" />
+        <mesh name="triangle_mesh" file="triangle.stl"/>
+        <mesh name="person" file="person4.stl"/>
+
+        <!--Textures-->
+        <texture name="floor_tex"   type="2d" builtin="checker" rgb1="0.7 0.7 0.7" rgb2="0.9 0.9 0.9" width="100" height="100" />
+
+        <!--Materials-->
+        <!-- <material name="floor_mat" texture="floor_tex" shininess="0.8" texrepeat="10 10" specular="0.7" reflectance="0.5" /> -->
+        <material name="floor_mat" texture="floor_tex" shininess="0.3" texrepeat="7 5" specular="0.5" reflectance="0.2" />
+        <material name="wall_mat" rgba="0.7 0.7 0.7 1" shininess="0.8" specular="0.7" reflectance="0.5" />
+        <material name="bench_mat" texture="floor_tex" shininess="0.1" specular="0.5" reflectance="0.2"/>
+    </asset>
+
+	<worldbody>
+		<!-- <light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0" /> -->
+		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0" />
+
+        <!-- Floor Property -->
+        <geom name='floor' material="floor_mat" pos='5 0 0' size='7.0 5.0 0.1'  type='plane' condim="3"/>
+
+        <!-- Wall Property -->
+        <geom name='wall1' material="wall_mat" pos='5.0 5 0.5' size='7 0.1 0.5'  type='box' condim="6" group="2"/>
+        <geom name='wall2' material="wall_mat" pos='5.0 -5 0.5' size='7 0.1 0.5'  type='box' condim="6" group="2"/>
+        <geom name='wall3' material="wall_mat" pos='12 0 0.5' size='0.1 5 0.5'  type='box' condim="6" group="2"/>
+        <geom name='wall4' material="wall_mat" pos='-2.0 0 0.5' size='0.1 5 0.5' type='box' condim="6" group="2"/>
+
+		<!-- camera: front view -->
+		<camera mode="fixed" name="frontview" pos="3.0 0 1.85" quat="0.56 0.43 0.43 0.56"/>
+
+		<!-- Robot -->
+		<body name="robot" pos="0 0 0.06344">
+            <site name="robot" pos="0 0 0"/>
+            <joint type="free" name="robot" damping="0"/>
+
+            <geom pos="0 0 0" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.15 0.15 0.15 1" mesh="base"/>
+
+            <geom name="robot" size="0.18 0.2" pos="0 0 0.15" type="cylinder" rgba="0.2 0.2 0.2 1" group="5" mass="4.0"/>
+
+            <body name="left" pos="0.0 0.1 0.0345">
+                <joint type="hinge" name="left" axis="0 1 0"/>
+                <geom type="cylinder" name="left" size="0.098 0.02" quat="0.707107 0.707107 0 0" rgba="0.2 0.2 0.2 0" group="1" condim="4" mass=".5"/>
+            </body>
+
+            <body name="right" pos="0.0 -0.1 0.0345">
+                <joint type="hinge" name="right" axis="0 1 0"/>
+                <geom type="cylinder" name="right" size="0.098 0.02" quat="0.707107 0.707107 0 0" rgba="0.2 0.2 0.2 0" group="1" condim="4" mass=".5"/>
+            </body>
+
+            <body name="front" pos="0.131 0 -0.0155">
+                <joint name="front" type="ball"/>
+                <geom name="front" size="0.048" group="1" mass=".5"/>
+            </body>
+            <body name="rear" pos="-0.131 0 -0.0155">
+                <joint name="rear" type="ball"/>
+                <geom name="rear" size="0.048" group="1" mass=".5"/>
+            </body>
+		</body>
+            
+
+
+    <body name="chair" pos="3 1 0.4" quat="0.1 0 0 1">
+        <joint type="free" name="chair" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg1" pos="-0.2 -0.2 0">
+            <joint name="leg1_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg2" pos="0.2 -0.2 0">
+            <joint name="leg2_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg3" pos="-0.2 0.2 0">
+            <joint name="leg3_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg4" pos="0.2 0.2 0">
+            <joint name="leg4_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+    <body name="chair2" pos="1.7 -0.1 0.4" quat="0.1 0 0 1">
+        <joint type="free" name="chair2" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square2" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg12" pos="-0.2 -0.2 0">
+            <joint name="leg12_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg22" pos="0.2 -0.2 0">
+            <joint name="leg22_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg32" pos="-0.2 0.2 0">
+            <joint name="leg32_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg42" pos="0.2 0.2 0">
+            <joint name="leg42_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+        <body name="box1" pos="4.3 0.0 0.2">
+            <site name="box1" pos="0 0 0" rgba="0 0 1 0"/>
+            <joint type="free" name="box1" frictionloss="0" damping="0" />
+            <geom name="box1" type="box" size="0.1 0.8 0.4" rgba="0 .4 0 0.5" mass="0.1" group="2"/>
+        </body>
+
+        <body name="person" pos="8.5 1 0">
+            <joint type="free"/>
+            <geom type="mesh" mesh="person" rgba="0.8 0.2 0.2 1" quat="-8 0.0 0.0 1.0" mass="1" group="2"/>
+        </body>
+
+        <body name="person2" pos="1 -3 0">
+            <joint type="free"/>
+            <geom type="mesh" mesh="person" rgba="0.8 0.2 0.2 1" quat="0.0 0.0 0.0 1.0" mass="1" group="2"/>
+        </body>
+
+    <body name="chair3" pos="3 -2 0.4">
+        <joint type="free" name="chair3" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square3" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg13" pos="-0.2 -0.2 0">
+            <joint name="leg13_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg23" pos="0.2 -0.2 0">
+            <joint name="leg23_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg33" pos="-0.2 0.2 0">
+            <joint name="leg33_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg43" pos="0.2 0.2 0">
+            <joint name="leg43_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+
+    <body name="chair4" pos="7 0.2 0.4">
+        <joint type="free" name="chair4" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square4" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg14" pos="-0.2 -0.2 0">
+            <joint name="leg14_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg24" pos="0.2 -0.2 0">
+            <joint name="leg24_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg34" pos="-0.2 0.2 0">
+            <joint name="leg34_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg44" pos="0.2 0.2 0">
+            <joint name="leg44_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+
+    <body name="chair5" pos="6 -2 0.4">
+        <joint type="free" name="chair5" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square5" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg15" pos="-0.2 -0.2 0">
+            <joint name="leg15_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg25" pos="0.2 -0.2 0">
+            <joint name="leg25_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg35" pos="-0.2 0.2 0">
+            <joint name="leg35_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg45" pos="0.2 0.2 0">
+            <joint name="leg45_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+    <body name="chair6" pos="9 -3.5 0.4">
+        <joint type="free" name="chair6" damping="0"/>
+        <!-- Top square of the chair -->
+        <body name="top_square6" pos="0 0 0.4">
+            <geom type="box" size="0.25 0.25 0.02" rgba="1 .5 0 0.5" mass="2" group="2"/>
+        </body>
+        <!-- Leg 1 -->
+        <body name="leg16" pos="-0.2 -0.2 0">
+            <joint name="leg16_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 2 -->
+        <body name="leg26" pos="0.2 -0.2 0">
+            <joint name="leg26_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 3 -->
+        <body name="leg36" pos="-0.2 0.2 0">
+            <joint name="leg36_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+        <!-- Leg 4 -->
+        <body name="leg46" pos="0.2 0.2 0">
+            <joint name="leg46_joint" type="ball" range="0 0"/>
+            <geom type="cylinder" size="0.05 0.4" rgba="1 .5 0 0.5" mass="0.5" group="2"/>
+        </body>
+    </body>
+
+        <body name="triangle" pos="6.2 -2.8 0">
+            <joint type="free"/>
+            <geom type="mesh" mesh="triangle_mesh" rgba="0.8 0.8 0.8 1" quat="0.0 0.0 0.0 1.0" mass="1" group="2"/>
+        </body>
+
+        <body name="triangle2" pos="6 3 0">
+            <joint type="free"/>
+            <geom type="mesh" mesh="triangle_mesh" rgba="0.85 0.85 0.85 1" quat="-0.15 0 0 1" mass="1" group="2"/>
+        </body>
+
+        <body name="triangle3" pos="13 2 0">
+            <joint type="free"/>
+            <geom type="mesh" mesh="triangle_mesh" rgba="0.85 0.85 0.85 1" quat="0.2763556485641138 0.0 0.0 0.961055438310771" mass="1" group="2"/>
+        </body>
+
+
+        <!-- goal -->
+        <body name="goal" pos="9.5 -1.5 .1">
+            <site name="goal" pos="0 0 0" rgba="0 0 1 0"/>
+            <joint type="free" name="goal" frictionloss="0" damping="0" />
+            <geom type="cylinder" size="0.25 0.25 0.25" contype="0" conaffinity="0" group="1" rgba="0 0.9 0 0.3" mass="0.1"/>
+        </body>
+
+	</worldbody>
+
+    <sensor>
+        <!-- Used for observation -->
+        <accelerometer site="robot" name="accelerometer"/>
+        <velocimeter site="robot" name="velocimeter"/>
+        <gyro site="robot" name="gyro"/>
+    </sensor>
+
+    <!--ACTUATORS-->
+    <actuator>
+
+        <motor gear="0.7 0 0 0 0 0" joint="left" name="left"/>
+        <motor gear="0.7 0 0 0 0 0" joint="right" name="right"/>
+
+    </actuator>
+</mujoco>

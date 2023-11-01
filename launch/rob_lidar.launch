@@ -1,0 +1,37 @@
+<launch>
+
+    <!-- LIDAR LAUNCH -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find sick_tim)/urdf/example.urdf.xacro'" />
+    <node name="sick_tim551_2050001" pkg="sick_tim" type="sick_tim551_2050001" respawn="false" output="screen">
+        <param name="frame_id" type="str" value="lidar_link" />
+        <param name="min_ang" type="double" value="-2.0943951023931953" />
+        <param name="max_ang" type="double" value="2.0943951023931953" />
+    </node>
+
+    <!-- 0.0174533 -->
+
+    <!-- TBOT LAUNCH -->
+    <arg name="urdf_file" default="$(find xacro)/xacro '$(find kobuki_description)/urdf/kobuki_standalone.urdf.xacro'"/>
+    <param name="robot_description" command="$(arg urdf_file)"/>
+
+    <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet mobile_base_nodelet_manager">
+        <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+        <remap from="mobile_base/odom" to="odom"/>
+        <!-- Don't do this - force applications to use a velocity mux for redirection
+            <remap from="mobile_base/commands/velocity" to="cmd_vel"/>
+        -->
+        <remap from="mobile_base/enable" to="enable"/>
+        <remap from="mobile_base/disable" to="disable"/>
+        <remap from="mobile_base/joint_states" to="joint_states"/>
+    </node>
+
+    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
+        <rosparam command="load" file="$(find kobuki_node)/param/diagnostics.yaml"/>
+    </node>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="30.0"/>
+    </node>
+
+</launch>

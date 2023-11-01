@@ -1,0 +1,12 @@
+<package>
+  <description brief="tbot">
+
+     tbot
+
+  </description>
+  <author>ericsson-nuc</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/tbot</url>
+
+</package>

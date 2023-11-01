@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="tbot" type="inference_tbot.py" name="tbot_control" output="screen">
+    
+    </node>
+</launch>
