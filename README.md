@@ -1,2 +1,2 @@
 # srl_realrobot
-Deploying Safe Reinforcement Learning on Real Robots with Domain Randomization
+This repository showcases a model's journey to navigate complex environments safely while bridging the sim-to-real gap using Lidar sensor. Discover how Domain Randomization plays a pivotal role in enhancing model generalization from simulations to real-world scenarios. With simulated training in SafetyGym and real-world tests using ROS and the TurtleBot 2i, witness if DR improves safety, performance or enables this robot to excel in critical real-world situations.
