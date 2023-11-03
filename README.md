@@ -1,6 +1,5 @@
-# srl_realrobot
-
 # 1. Overview
+
 Welcome to the repository for Safe Reinforcement Learning (SRL) for real robots. This repository showcases a model's journey to navigate complex environments safely while bridging the sim-to-real gap using Lidar sensor. Discover how Domain Randomization plays a pivotal role in enhancing model generalization from simulations to real-world scenarios. With simulated training in SafetyGym and real-world tests using ROS and the TurtleBot 2i, witness if DR improves safety, performance or enables this robot to excel in critical real-world situations.
 ![Turtlebot 2i simulation and real enviroment](imgs/realw_testing.png)
 
@@ -35,8 +34,21 @@ Lorem ipsum
 ## Simulation Results
 Lorem ipsum
 
+![Simulated enviroment](imgs/simu_obstacles.jpeg)
+
+![Simulation training Reward](imgs/simu_training.png)
+
+![Simulation training CV](imgs/simu_training_cv.png)
+
 ## Real World Results
 Lorem ipsum
+[![Real enviroment 1](imgs/env_1test.png)](https://youtu.be/zLOIfi8Lnxg)
+
+[![Real enviroment 2](imgs/env_2test.png)](https://youtu.be/m4fElZZIkFI)
+
+[![Real enviroment 3](imgs/env_3test.png)](https://youtu.be/sLtSUiQ4QWw)
+
+
 
 
 # 5. Usage
