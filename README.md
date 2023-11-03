@@ -41,6 +41,7 @@ during training, which serve as a proxy for the model’s ability to navigate sa
 The created training environment for the DR model is shown in the picture below.
 
 ![Simulated enviroment](imgs/simu_obstacles.jpeg)
+In this simulated environment all the obstacles and goal are randomly positioned every episode. The blue figures represent static obstacles, the orange figures dynamic obstacles and the green cylinder is the goal. 
 
 In the subsequent plots, the obtained rewards and constraint violations of each model are presented, providing a comprehensive view of their learning progressions and highlighting the
 advantages and limitations of each approach.
