@@ -1,7 +1,9 @@
 # 1. Overview
 
 Welcome to the repository for Safe Reinforcement Learning (SRL) for real robots. This repository showcases a model's journey to navigate complex environments safely while bridging the sim-to-real gap using Lidar sensor. Discover how Domain Randomization plays a pivotal role in enhancing model generalization from simulations to real-world scenarios. With simulated training in SafetyGym and real-world tests using ROS and the TurtleBot 2i, witness if DR improves safety, performance or enables this robot to excel in critical real-world situations.
-![Turtlebot 2i simulation and real enviroment](imgs/realw_testing.png)
+
+[![Turtlebot 2i simulation and real enviroment](imgs/realw_testing.png)](https://youtu.be/wHS5mEENhb0)
+Click in the image to watch the final result video of the trained agent in real-world vs simuation.
 
 # 2. Features
 
@@ -29,26 +31,35 @@ This project requires to install the following python version and libraries:
 In case of problems installing mujoco-py or safety-gym there is a detailed .pdf tutorial in this folder called: Installation_tutorial_SafetyGYM_Mujoco
 
 # 4. Results
-Lorem ipsum
+The results of the experiments will be detailed below, highlighting the
+performance of various models under different training conditions. These results provide insight into the effectiveness of the methodologies employed, particularly the impact of domain randomization on bridging the sim-to-real gap.
 
 ## Simulation Results
-Lorem ipsum
+The simulation phase of the experiments involved training three distinct models, each subjected to different environmental conditions and levels of DR. The performance of each model was gauged based on the rewards and constraint violations obtained
+during training, which serve as a proxy for the model’s ability to navigate safely and efficiently.
+
+The created training environment for the DR model is shown in the picture below.
 
 ![Simulated enviroment](imgs/simu_obstacles.jpeg)
+
+In the subsequent plots, the obtained rewards and constraint violations of each model are presented, providing a comprehensive view of their learning progressions and highlighting the
+advantages and limitations of each approach.
 
 ![Simulation training Reward](imgs/simu_training.png)
 
 ![Simulation training CV](imgs/simu_training_cv.png)
 
 ## Real World Results
-Lorem ipsum
+Finally, these models were deployed onto the actual Turtlebot to navigate the challenges of the real-world. To evaluate the efficacy of DR in real-world scenarios, I created three distinct environments, each progressively more complex. Below, you'll find videos and simulated representations of these three experimental environments:
+
 [![Real enviroment 1](imgs/env_1test.png)](https://youtu.be/zLOIfi8Lnxg)
+Testing Real Environment 1 Video, with two simple obstacles.
 
 [![Real enviroment 2](imgs/env_2test.png)](https://youtu.be/m4fElZZIkFI)
+Testing Real Environment 2 Video, with multiple static obstacles.
 
 [![Real enviroment 3](imgs/env_3test.png)](https://youtu.be/sLtSUiQ4QWw)
-
-
+Testing Real Environment 3 Video, with multiple static obstacles and people as moving obstacles.
 
 
 # 5. Usage
